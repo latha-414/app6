@@ -1,5 +1,6 @@
-FROM nginx:alpine
-LABEL app="TEST"
-COPY index.html /usr/share/nginx/html/index.html
-EXPOSE 80
-RUN echo 'server { listen 80; root /usr/share/nginx/html; location ~ ^/app[1-7](/|$) { try_files /index.html =404; } location / { try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
+FROM node:alpine
+WORKDIR /app
+RUN echo 'const express = require("express"); const app = express(); app.get("*", (req,res) => res.send("<h1>App6 Working</h1>")); app.listen(3000, "0.0.0.0");' > server.js
+RUN npm init -y && npm install express
+EXPOSE 3000
+CMD ["node", "server.js"]
