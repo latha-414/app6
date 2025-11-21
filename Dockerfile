@@ -1,6 +1,5 @@
 FROM nginx:alpine
 LABEL app="TEST"
 COPY index.html /usr/share/nginx/html/index.html
-ENV NGINX_PORT=3000
-EXPOSE 3000
-RUN echo 'server { listen 3000; location / { root /usr/share/nginx/html; try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
+EXPOSE 80
+RUN echo 'server { listen 80; root /usr/share/nginx/html; location ~ ^/app[1-7](/|$) { try_files /index.html =404; } location / { try_files $uri $uri/ /index.html; } }' > /etc/nginx/conf.d/default.conf
